@@ -116,8 +116,12 @@ conv_depthwise，包括3x3及8bit卷积核
 
 ## 2.2 yolov3模型执行过程分析
 
-```sequence
-Title: Yolov3执行过程
+```sequenceDiagram
+participant main
+participant detect_yolov3
+participant extract
+participant forward_layer
+participant draw_objects
 main->main: 加载待检测图片
 main->detect_yolov3: image cv::Mat
 detect_yolov3->detect_yolov3:  加载yolov3的param和bin文件
@@ -266,6 +270,7 @@ static void gemm_v2(float* matA, float* matB, float* matC,
 ![此处输入图片的描述][4]
 
 **4. 卷积计算量削减**
+
 ![此处输入图片的描述][5]　　![此处输入图片的描述][6]
 
 　　计算时可以依据需求，先计算公共部分和 prob 分支，待 prob 结果超过阈值后，再计算 bbox 分支。如果 prob 低于阈值，则可以不计算 bbox 分支，减少计算量。
